@@ -5,6 +5,7 @@ import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -17,12 +18,14 @@ public class LoginTest {
 
     @BeforeEach
     void setUp(TestInfo testInfo) {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--headless=new");
+        options.addArguments("--window-size=1920,1080");
+        driver = new ChromeDriver(options);
         loginPage = new LoginPage(driver);
         loginPage.goTo();
         loggedInSuccessfullyPage = new LoggedInSuccessfullyPage(driver);
-        String testName = testInfo.getDisplayName();
-        ExtentTest test = ReportManager.createTest(testName);
+        ReportManager.createTest(testInfo.getDisplayName());
     }
 
     //@AfterEach
